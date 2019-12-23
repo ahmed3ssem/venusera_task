@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:venusera_task/serviceprovider.dart';
 import 'signup.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -9,6 +11,27 @@ class UserLogin extends StatefulWidget {
 
 class _UserLoginState extends State<UserLogin> {
   TextEditingController emailEditingContrller = TextEditingController();
+
+  void checkEmailValidate()
+  {
+    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailEditingContrller.toString());
+    if(!emailValid)
+      {
+        Fluttertoast.showToast(
+            msg: "Please Enter validate email",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    else
+      {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>ServiceProvider()));
+      }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +101,7 @@ class _UserLoginState extends State<UserLogin> {
                     //color: Colors.green,
                     minWidth: double.infinity,
                     child: MaterialButton(
-                      onPressed: () => {},
+                      onPressed: checkEmailValidate,
                       textColor: Colors.white,
                       color: Colors.blue,
                       height: 40,
