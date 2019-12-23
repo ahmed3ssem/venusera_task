@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:venusera_task/serviceprovider.dart';
-import 'signup.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:venusera_task/signup.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -10,15 +10,32 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
-  TextEditingController emailEditingContrller = TextEditingController();
 
-  void checkEmailValidate()
+  static TextEditingController EmailEditingContrller = TextEditingController();
+  static TextEditingController PassEditingContrller = TextEditingController();
+
+  static String Email = EmailEditingContrller.toString();
+  static String Pass = PassEditingContrller.toString();
+
+  void LoginValidate()
   {
-    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(emailEditingContrller.toString());
+    bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(Email);
     if(!emailValid)
       {
         Fluttertoast.showToast(
             msg: "Please Enter validate email",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    else if(Email.isEmpty||Pass.isEmpty)
+      {
+        Fluttertoast.showToast(
+            msg: "Please Fill Out All Information",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIos: 1,
@@ -56,7 +73,7 @@ class _UserLoginState extends State<UserLogin> {
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
-                    controller: emailEditingContrller,
+                    controller: EmailEditingContrller,
                     decoration: InputDecoration(
                         labelText: "Email",
                         hintText: "Email",
@@ -77,8 +94,8 @@ class _UserLoginState extends State<UserLogin> {
                   TextField(
                     autofocus: false,
                     obscureText: true,
-                    keyboardType: TextInputType.text,
-                    controller: emailEditingContrller,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: PassEditingContrller,
                     decoration: InputDecoration(
                         labelText: "Password",
                         hintText: "Password",
@@ -101,7 +118,7 @@ class _UserLoginState extends State<UserLogin> {
                     //color: Colors.green,
                     minWidth: double.infinity,
                     child: MaterialButton(
-                      onPressed: checkEmailValidate,
+                      onPressed: () => {},
                       textColor: Colors.white,
                       color: Colors.blue,
                       height: 40,
@@ -117,7 +134,7 @@ class _UserLoginState extends State<UserLogin> {
                     minWidth: double.infinity,
                     child: MaterialButton(
                       onPressed: () => {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => signup()))
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUp()))
                       },
                       textColor: Colors.white,
                       color: Colors.blue,

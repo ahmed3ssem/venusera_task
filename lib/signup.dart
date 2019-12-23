@@ -1,7 +1,71 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:venusera_task/login.dart';
+import 'package:venusera_task/serviceprovider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class signup extends StatelessWidget {
-  TextEditingController emailEditingContrller = TextEditingController();
+class SignUp extends StatefulWidget {
+  @override
+  _SignUpState createState() => _SignUpState();
+}
+
+class _SignUpState extends State<SignUp> {
+  static TextEditingController NameEditingContrller = TextEditingController();
+  static TextEditingController EmailEditingContrller = TextEditingController();
+  static TextEditingController PassEditingContrller = TextEditingController();
+  static TextEditingController ConfirmPassEditingContrller = TextEditingController();
+
+  static String  Email = EmailEditingContrller.toString();
+  static String  Name  = NameEditingContrller.toString();
+  static String  Pass  = PassEditingContrller.toString();
+  static String  ConfirmPass = ConfirmPassEditingContrller.toString();
+  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(Email);
+
+
+  void SignUpValidation()
+  {
+    if(Email.isEmpty||Name.isEmpty||Pass.isEmpty||ConfirmPass.isEmpty)
+      {
+        Fluttertoast.showToast(
+            msg: "Please Fill Out All Information",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    else if(!emailValid)
+      {
+        Fluttertoast.showToast(
+            msg: "Please Enter validate email",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    else if(Pass!=ConfirmPass)
+      {
+        Fluttertoast.showToast(
+            msg: "Password Doesnot Match",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    else
+      {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>UserLogin()));
+      }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +88,8 @@ class signup extends StatelessWidget {
                   TextField(
                     autofocus: false,
                     obscureText: false,
-                    keyboardType: TextInputType.emailAddress,
-                    controller: emailEditingContrller,
+                    keyboardType: TextInputType.text,
+                    controller: NameEditingContrller,
                     decoration: InputDecoration(
                         labelText: "Name",
                         hintText: "Name",
@@ -47,7 +111,7 @@ class signup extends StatelessWidget {
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
-                    controller: emailEditingContrller,
+                    controller: EmailEditingContrller,
                     decoration: InputDecoration(
                         labelText: "Email",
                         hintText: "Email",
@@ -68,8 +132,8 @@ class signup extends StatelessWidget {
                   TextField(
                     autofocus: false,
                     obscureText: true,
-                    keyboardType: TextInputType.text,
-                    controller: emailEditingContrller,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: PassEditingContrller,
                     decoration: InputDecoration(
                         labelText: "Password",
                         hintText: "Password",
@@ -90,8 +154,8 @@ class signup extends StatelessWidget {
                   TextField(
                     autofocus: false,
                     obscureText: true,
-                    keyboardType: TextInputType.text,
-                    controller: emailEditingContrller,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: ConfirmPassEditingContrller,
                     decoration: InputDecoration(
                         labelText: "Confirm Password",
                         hintText: "Confirm Password",
