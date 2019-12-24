@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:venusera_task/request.dart';
 import 'package:venusera_task/request_details.dart';
 import 'package:venusera_task/signup.dart';
+import 'package:venusera_task/style.dart';
 
 import 'helper/image_widget.dart';
 
@@ -39,6 +40,8 @@ class _RequestListState extends State<RequestList> {
               color: Colors.blue,
               height: 40,
               child: Text("Add Requset"),
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              minWidth: 100,
             ),
           ),
         ]));
@@ -64,11 +67,11 @@ class _RequestListState extends State<RequestList> {
           children: [
             Text(
               "request",
-              style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),
+              style: Styles.headerLarge,
             ),
             Text(
               'request descreption',
-              style: TextStyle(color: Colors.blueAccent, fontSize: 14.0),
+              style:Styles.defualtText,
             ),
           ]),
       trailing: Container(

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:venusera_task/style.dart';
 
 class Request extends StatefulWidget {
   @override
@@ -12,16 +13,16 @@ class _RequestState extends State<Request> {
   List<Asset> images = List<Asset>();
   DateTime _dateTime;
   static TextEditingController RequestEditingContrller =
-  TextEditingController();
+      TextEditingController();
   static TextEditingController RequestDateEditingContrller =
-  TextEditingController();
+      TextEditingController();
   static TextEditingController RequestDescriptionEditingContrller =
-  TextEditingController();
+      TextEditingController();
 
   static String Request = RequestEditingContrller.toString();
   static String RequestDate = RequestDateEditingContrller.toString();
   static String RequestDescription =
-  RequestDescriptionEditingContrller.toString();
+      RequestDescriptionEditingContrller.toString();
 
   @override
   void initState() {
@@ -41,11 +42,13 @@ class _RequestState extends State<Request> {
       }),
     );
   }
+
   Future saveImage(Asset asset) async {
     ByteData byteData = await asset.requestOriginal();
     List<int> imageData = byteData.buffer.asUint8List();
     print(imageData);
   }
+
   Future<void> loadAssets() async {
     List<Asset> resultList = List<Asset>();
     try {
@@ -76,101 +79,102 @@ class _RequestState extends State<Request> {
         title: Text("Add Request"),
         centerTitle: true,
       ),
-      body:Column(
+      body: Column(
         children: <Widget>[
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            autofocus: false,
-            obscureText: false,
-            keyboardType: TextInputType.text,
-            controller: RequestEditingContrller,
-            decoration: InputDecoration(
-                labelText: "Request",
-                hintText: "Request",
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(
-                        width: 1,
-                        color: Colors.green,
-                        style: BorderStyle.solid))),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextField(
-            autofocus: false,
-            obscureText: false,
-            keyboardType: TextInputType.text,
-            controller: RequestDescriptionEditingContrller,
-            decoration: InputDecoration(
-                labelText: "Request Description",
-                hintText: "Request Description",
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(
-                        width: 1,
-                        color: Colors.green,
-                        style: BorderStyle.solid))),
-          ),
-          SizedBox(
-            height: 20,
-          ),
           Column(
             children: <Widget>[
-              Text(_dateTime==null?"nothing picked yet":_dateTime.toString()),
+              new Container(
+                  padding: const EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.all(10.0),
+                  child: new Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: new TextFormField(
+                      //controller: DescriptionController,
+                      decoration: const InputDecoration(
+                        hintText: 'Request Name',
+                        labelText: 'Request Name',
+                      ),
+                    ),
+                  )),
+
+            ],
+          ),
+
+          new Container(
+              padding: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.all(10.0),
+              child: new Directionality(
+                textDirection: TextDirection.ltr,
+                child: new TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  //controller: DescriptionController,
+                  decoration: const InputDecoration(
+                    hintText: 'Request Description',
+                    labelText: 'Request Description',
+                  ),
+                ),
+              )),
+          new Container(
+            padding: const EdgeInsets.all(5.0),
+            margin: const EdgeInsets.all(5.0),
+            decoration: new BoxDecoration(
+              color: Colors.blue[200],
+              borderRadius:
+              BorderRadius.all(Radius.circular(20.0)),
+            ),
+            child:Column(
+            children: <Widget>[
+              Text(
+                _dateTime == null
+                    ? "nothing picked yet please select date"
+                    : _dateTime.toString(),
+                style: Styles.defualtText,
+              ),
               ButtonTheme(
                 //elevation: 4,
                 //color: Colors.green,
                 minWidth: double.infinity,
                 child: MaterialButton(
-                  onPressed: (){
+                  onPressed: () {
                     showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(2001),
-                      lastDate: DateTime(2222)
-                    ).then((date){
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2001),
+                            lastDate: DateTime(2222))
+                        .then((date) {
                       setState(() {
-                        _dateTime=date;
+                        _dateTime = date;
                       });
                     });
                   },
+                  child: const Icon(Icons.date_range),
                   textColor: Colors.white,
                   color: Colors.blue,
                   height: 40,
-                  child: Text("Pick date"),
+                  minWidth: 40,
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
                 ),
               ),
             ],
-          ),
-          SizedBox(
-            height: 20,
-          ),
+          )),
           ButtonTheme(
             //elevation: 4,
             //color: Colors.green,
             minWidth: double.infinity,
             child: MaterialButton(
+              minWidth: 40,
               onPressed: loadAssets,
               textColor: Colors.white,
               color: Colors.blue,
               height: 40,
-              child: Text("Select Images"),
+              child: const Icon(Icons.add_a_photo),
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
             ),
           ),
           //RaisedButton(
-            //child: Text("Save Image"),
-            //onPressed: () => saveImage,
+          //child: Text("Save Image"),
+          //onPressed: () => saveImage,
           //),
           Expanded(
             child: buildGridView(),
@@ -183,8 +187,10 @@ class _RequestState extends State<Request> {
               onPressed: () => {},
               textColor: Colors.white,
               color: Colors.blue,
+              minWidth: 150,
               height: 40,
-              child: Text("Add Request"),
+              child: Text("Add Request",style: Styles.textSizeLargeWhite,),
+                shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
             ),
           ),
         ],
