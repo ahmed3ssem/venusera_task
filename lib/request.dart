@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
+
 class Request extends StatefulWidget {
   @override
   _RequestState createState() => _RequestState();
@@ -9,16 +10,17 @@ class Request extends StatefulWidget {
 class _RequestState extends State<Request> {
   List<Asset> images = List<Asset>();
   static TextEditingController RequestEditingContrller =
-      TextEditingController();
+  TextEditingController();
   static TextEditingController RequestDateEditingContrller =
-      TextEditingController();
+  TextEditingController();
   static TextEditingController RequestDescriptionEditingContrller =
-      TextEditingController();
+  TextEditingController();
 
   static String Request = RequestEditingContrller.toString();
   static String RequestDate = RequestDateEditingContrller.toString();
   static String RequestDescription =
-      RequestDescriptionEditingContrller.toString();
+  RequestDescriptionEditingContrller.toString();
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +39,7 @@ class _RequestState extends State<Request> {
       }),
     );
   }
+
   Future<void> loadAssets() async {
     List<Asset> resultList = List<Asset>();
     try {
@@ -51,9 +54,7 @@ class _RequestState extends State<Request> {
             allViewTitle: "All Photos",
             selectCircleStrokeColor: "#000000",
           ));
-    }
-    on Exception catch (e) {
-    }
+    } on Exception catch (e) {}
 
     if (!mounted) return;
 
@@ -61,6 +62,7 @@ class _RequestState extends State<Request> {
       images = resultList;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,119 +70,105 @@ class _RequestState extends State<Request> {
         title: Text("Add Request"),
         centerTitle: true,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            padding: EdgeInsets.all(14),
-            child: Center(
-              child: Column(
-                children: <Widget>[
-
-                  SizedBox(
-                    height: 40,
-                  ),
-                  TextField(
-                    autofocus: false,
-                    obscureText: false,
-                    keyboardType: TextInputType.text,
-                    controller: RequestEditingContrller,
-                    decoration: InputDecoration(
-                        labelText: "Request",
-                        hintText: "Request",
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.green,
-                                style: BorderStyle.solid))),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextField(
-                    autofocus: false,
-                    obscureText: false,
-                    keyboardType: TextInputType.datetime,
-                    controller: RequestDateEditingContrller,
-                    decoration: InputDecoration(
-                        labelText: "Request Date",
-                        hintText: "Request Date",
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.green,
-                                style: BorderStyle.solid))),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-
-                  TextField(
-                    autofocus: false,
-                    obscureText: true,
-                    keyboardType: TextInputType.text,
-                    controller: RequestDescriptionEditingContrller,
-                    decoration: InputDecoration(
-                        labelText: "Request Description",
-                        hintText: "Request Description",
-                        labelStyle: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: Colors.green,
-                                style: BorderStyle.solid))),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ButtonTheme(
-                    //elevation: 4,
-                    //color: Colors.green,
-                    minWidth: double.infinity,
-                    child: MaterialButton(
-                      onPressed: () => {
-                        loadAssets()
-                      },
-                      textColor: Colors.white,
-                      color: Colors.blue,
-                      height: 40,
-                      child: Text("Select Iamges"),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ButtonTheme(
-                    //elevation: 4,
-                    //color: Colors.green,
-                    minWidth: double.infinity,
-                    child: MaterialButton(
-                      onPressed: () => {},
-                      textColor: Colors.white,
-                      color: Colors.blue,
-                      height: 40,
-                      child: Text("Add Request"),
-                    ),
-                  ),
-                ],
-              ),
+      body:Column(
+        children: <Widget>[
+          SizedBox(
+            height: 20,
+          ),
+          TextField(
+            autofocus: false,
+            obscureText: false,
+            keyboardType: TextInputType.text,
+            controller: RequestEditingContrller,
+            decoration: InputDecoration(
+                labelText: "Request",
+                hintText: "Request",
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(
+                        width: 1,
+                        color: Colors.green,
+                        style: BorderStyle.solid))),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextField(
+            autofocus: false,
+            obscureText: false,
+            keyboardType: TextInputType.text,
+            controller: RequestDescriptionEditingContrller,
+            decoration: InputDecoration(
+                labelText: "Request Description",
+                hintText: "Request Description",
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(
+                        width: 1,
+                        color: Colors.green,
+                        style: BorderStyle.solid))),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextField(
+            autofocus: false,
+            obscureText: false,
+            keyboardType: TextInputType.datetime,
+            controller: RequestDateEditingContrller,
+            decoration: InputDecoration(
+                labelText: "Request Date",
+                hintText: "Request Date",
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(
+                        width: 1,
+                        color: Colors.green,
+                        style: BorderStyle.solid))),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          ButtonTheme(
+            //elevation: 4,
+            //color: Colors.green,
+            minWidth: double.infinity,
+            child: MaterialButton(
+              onPressed: loadAssets,
+              textColor: Colors.white,
+              color: Colors.blue,
+              height: 40,
+              child: Text("Select Images"),
             ),
           ),
-        ),
+          Expanded(
+            child: buildGridView(),
+          ),
+          ButtonTheme(
+            //elevation: 4,
+            //color: Colors.green,
+            minWidth: double.infinity,
+            child: MaterialButton(
+              onPressed: () => {},
+              textColor: Colors.white,
+              color: Colors.blue,
+              height: 40,
+              child: Text("Add Request"),
+            ),
+          ),
+        ],
       ),
     );
   }
