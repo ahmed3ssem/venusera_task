@@ -10,6 +10,7 @@ class Request extends StatefulWidget {
 
 class _RequestState extends State<Request> {
   List<Asset> images = List<Asset>();
+  DateTime _dateTime;
   static TextEditingController RequestEditingContrller =
   TextEditingController();
   static TextEditingController RequestDateEditingContrller =
@@ -124,24 +125,33 @@ class _RequestState extends State<Request> {
           SizedBox(
             height: 20,
           ),
-          TextField(
-            autofocus: false,
-            obscureText: false,
-            keyboardType: TextInputType.datetime,
-            controller: RequestDateEditingContrller,
-            decoration: InputDecoration(
-                labelText: "Request Date",
-                hintText: "Request Date",
-                labelStyle: TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
+          Column(
+            children: <Widget>[
+              Text(_dateTime==null?"nothing picked yet":_dateTime.toString()),
+              ButtonTheme(
+                //elevation: 4,
+                //color: Colors.green,
+                minWidth: double.infinity,
+                child: MaterialButton(
+                  onPressed: (){
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2001),
+                      lastDate: DateTime(2222)
+                    ).then((date){
+                      setState(() {
+                        _dateTime=date;
+                      });
+                    });
+                  },
+                  textColor: Colors.white,
+                  color: Colors.blue,
+                  height: 40,
+                  child: Text("Pick date"),
                 ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
-                    borderSide: BorderSide(
-                        width: 1,
-                        color: Colors.green,
-                        style: BorderStyle.solid))),
+              ),
+            ],
           ),
           SizedBox(
             height: 20,
