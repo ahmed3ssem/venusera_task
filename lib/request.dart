@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
 class Request extends StatefulWidget {
@@ -39,7 +40,11 @@ class _RequestState extends State<Request> {
       }),
     );
   }
-
+  Future saveImage(Asset asset) async {
+    ByteData byteData = await asset.requestOriginal();
+    List<int> imageData = byteData.buffer.asUint8List();
+    print(imageData);
+  }
   Future<void> loadAssets() async {
     List<Asset> resultList = List<Asset>();
     try {
@@ -153,6 +158,10 @@ class _RequestState extends State<Request> {
               child: Text("Select Images"),
             ),
           ),
+          //RaisedButton(
+            //child: Text("Save Image"),
+            //onPressed: () => saveImage,
+          //),
           Expanded(
             child: buildGridView(),
           ),
