@@ -79,7 +79,7 @@ class _RequestState extends State<Request> {
         title: Text("Add Request"),
         centerTitle: true,
       ),
-      body: Column(
+      body:Column(
         children: <Widget>[
           Column(
             children: <Widget>[
