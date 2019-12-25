@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:venusera_task/style.dart';
-
-import 'helper/image_widget.dart';
 import 'helper/text_widget.dart';
 class RequestDetails extends StatefulWidget {
+
   final String id;
   final String name;
   RequestDetails({this.id, this.name});
@@ -12,6 +11,11 @@ class RequestDetails extends StatefulWidget {
   _RequestDetailsState createState() => _RequestDetailsState();
 }
 class _RequestDetailsState extends State<RequestDetails> {
+
+  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
+  //Return String
+  String Token = prefs.getString('Token');
+
 
   Widget buildGridView() {
     return GridView.builder(

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "419226216819",
+    "firebase_url": "https://venusera-22c4f.firebaseio.com",
+    "project_id": "venusera-22c4f",
+    "storage_bucket": "venusera-22c4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419226216819:android:3fc09422e40ccf9ba87d06",
+        "android_client_info": {
+          "package_name": "com.example.venusera_task"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "419226216819-e16v9nsimh6bfga1u1tmbv41cim2qup6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.venusera_task",
+            "certificate_hash": "014e85882d5bfdbd2cd56e38e51f8f1ba8966527"
+          }
+        },
+        {
+          "client_id": "419226216819-scojmgsn2rluqf686oh6nsk50cpjsqh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGmlRSihsj0CZ7KWREt7hjlYiQwYF2o5Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "419226216819-scojmgsn2rluqf686oh6nsk50cpjsqh5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

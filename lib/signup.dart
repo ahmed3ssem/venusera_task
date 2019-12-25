@@ -1,9 +1,10 @@
+import 'dart:convert';
+import 'package:email_validator/email_validator.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:venusera_task/login.dart';
-import 'package:venusera_task/service_provider_list.dart';
-import 'package:venusera_task/serviceprovider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:venusera_task/login.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -16,16 +17,12 @@ class _SignUpState extends State<SignUp> {
   static TextEditingController PassEditingContrller = TextEditingController();
   static TextEditingController ConfirmPassEditingContrller = TextEditingController();
 
-  static String  Email = EmailEditingContrller.toString();
-  static String  Name  = NameEditingContrller.toString();
-  static String  Pass  = PassEditingContrller.toString();
-  static String  ConfirmPass = ConfirmPassEditingContrller.toString();
-  bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(Email);
-
+  List<String> UserType = ['Client' , 'Service Provider']; // Option 2
+  String SelectedType;
 
   void SignUpValidation()
   {
-    if(Email.isEmpty||Name.isEmpty||Pass.isEmpty||ConfirmPass.isEmpty)
+    if(EmailEditingContrller.text.isEmpty||NameEditingContrller.text.isEmpty||PassEditingContrller.text.isEmpty||ConfirmPassEditingContrller.text.isEmpty||SelectedType==null)
       {
         Fluttertoast.showToast(
             msg: "Please Fill Out All Information",
@@ -37,8 +34,9 @@ class _SignUpState extends State<SignUp> {
             fontSize: 16.0
         );
       }
-    else if(!emailValid)
+    else if(!EmailValidator.validate(EmailEditingContrller.text))
       {
+
         Fluttertoast.showToast(
             msg: "Please Enter validate email",
             toastLength: Toast.LENGTH_SHORT,
@@ -49,7 +47,7 @@ class _SignUpState extends State<SignUp> {
             fontSize: 16.0
         );
       }
-    else if(Pass!=ConfirmPass)
+    else if(PassEditingContrller.text!=ConfirmPassEditingContrller.text)
       {
         Fluttertoast.showToast(
             msg: "Password Doesnot Match",
@@ -61,13 +59,71 @@ class _SignUpState extends State<SignUp> {
             fontSize: 16.0
         );
       }
+    else if(SelectedType==null)
+      {
+        Fluttertoast.showToast(
+            msg: "Please select usertype",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
     else
       {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>UserLogin()));
+        SignUpApi();
       }
   }
 
+  Future<void> SignUpApi()
+  async {
+    var dio = Dio();
+    int type;
+    if(SelectedType=="Client")
+      {
+        type = 1;
+      }
+    else if(SelectedType=="Service Provider")
+      {
+        type = 2;
+      }
+    Response response = await dio.post("http://myousif-001-site1.dtempurl.com/api/users/Register", data: {"name": NameEditingContrller.text, "email": EmailEditingContrller.text, "password": PassEditingContrller.text,"userType": type},options: Options(
+      followRedirects: false,
+      validateStatus: (status) {
+        return status < 500;
+      },
+    ),
+    );
+    Map<String, dynamic> user = jsonDecode(response.toString());
+    if(user['statusCode']!=200)
+      {
+        Fluttertoast.showToast(
+            msg: user['responseException']['exceptionMessage'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    else
+      {
+        Fluttertoast.showToast(
+            msg: "Email registered successfully , Please active your email",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>UserLogin()));
+      }
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +142,7 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: 40,
                   ),
-                  TextField(
+                  TextFormField(
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.text,
@@ -108,7 +164,7 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: 10,
                   ),
-                  TextField(
+                  TextFormField(
                     autofocus: false,
                     obscureText: false,
                     keyboardType: TextInputType.emailAddress,
@@ -130,7 +186,7 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: 10,
                   ),
-                  TextField(
+                  TextFormField(
                     autofocus: false,
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
@@ -152,7 +208,7 @@ class _SignUpState extends State<SignUp> {
                   SizedBox(
                     height: 10,
                   ),
-                  TextField(
+                  TextFormField(
                     autofocus: false,
                     obscureText: true,
                     keyboardType: TextInputType.visiblePassword,
@@ -172,6 +228,24 @@ class _SignUpState extends State<SignUp> {
                                 style: BorderStyle.solid))),
                   ),
                   SizedBox(
+                    height: 10,
+                  ),
+                  DropdownButton(
+                    hint: Text('Please select type'), // Not necessary for Option 1
+                    value: SelectedType,
+                    onChanged: (newValue) {
+                      setState(() {
+                        SelectedType = newValue;
+                      });
+                    },
+                    items: UserType.map((location) {
+                      return DropdownMenuItem(
+                        child: new Text(location),
+                        value: location,
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(
                     height: 20,
                   ),
                   ButtonTheme(
@@ -179,17 +253,11 @@ class _SignUpState extends State<SignUp> {
                     //color: Colors.green,
                     minWidth: double.infinity,
                     child: MaterialButton(
-                      onPressed: () => {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>ServiceProviderList()),)
-                      },
+                      onPressed:() =>{},
                       textColor: Colors.white,
                       color: Colors.blue,
                       height: 40,
                       child: Text("SignUp"),
-                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                        minWidth: 100
                     ),
                   ),
                 ],
