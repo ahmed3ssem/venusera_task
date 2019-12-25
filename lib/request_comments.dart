@@ -25,10 +25,10 @@ class _RequestCommentsState extends State<RequestComments> {
           title: Text("Add comment"),
           centerTitle: true,
         ),
-        body: Column(children: [
+        body:Column(children: [
           new Container(
-            padding: const EdgeInsets.all(20.0),
-            margin: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(10.0),
             decoration: new BoxDecoration(
               color: Colors.blue[200],
               borderRadius:
@@ -46,12 +46,26 @@ class _RequestCommentsState extends State<RequestComments> {
                   Styles.headerLarge)
             ]),
           ),
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: new Container(
+              padding: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.all(10.0),
+              decoration: new BoxDecoration(
+                color: Colors.blue[200],
+                borderRadius:
+                BorderRadius.all(Radius.circular(20.0)),
+              ),
+              child:buildGridView() ,
+            ),
+          ),
           Expanded(
+                  child: SizedBox(
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: 20,
-                  itemBuilder: _makeCard)),
+                  itemBuilder: _makeCard))),
           new Container(
               padding: const EdgeInsets.all(10.0),
               margin: const EdgeInsets.all(10.0),
@@ -61,7 +75,7 @@ class _RequestCommentsState extends State<RequestComments> {
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
                   //controller: DescriptionController,
-                  decoration:new InputDecoration(
+                  decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue, width: 5.0),
                     ),
@@ -77,13 +91,15 @@ class _RequestCommentsState extends State<RequestComments> {
             //color: Colors.green,
             minWidth: 70,
             child: MaterialButton(
-              onPressed: () => {
+              onPressed: () =>
+              {
               },
               textColor: Colors.white,
               color: Colors.blue,
               height: 40,
               child: Text("Add Comment"),
-              shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+              shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)),
               minWidth: 100,
             ),
           ),
@@ -122,7 +138,34 @@ class _RequestCommentsState extends State<RequestComments> {
           Icon(Icons.comment, color: Colors.blue, size: 30.0)),
       leading: ImageWidget.networkImageCircleWidget(
           "http://placehold.it/120x120&text=image1", 50, 50),
-      onTap: () {
+      onTap: () {},
+    );
+  }
+
+  Widget buildGridView() {
+    return GridView.builder(
+      shrinkWrap: true,
+      itemCount: 5,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,),
+      itemBuilder: (context, index) {
+        return Card(child:
+        Column(children: <Widget>[
+          Container(
+              width: 150,
+              height: 100,
+              decoration: new BoxDecoration(
+                  color: Colors.blue[200],
+                  borderRadius:
+                  new BorderRadius.all(const Radius.circular(8.0)),
+                  image: new DecorationImage(
+                    fit: BoxFit.fill,
+                    colorFilter: new ColorFilter.mode(
+                        Colors.black.withOpacity(0.9), BlendMode.clear),
+                    image:new NetworkImage("https://example.com/image.png"),
+                  ))),
+        ],)
+        );
       },
     );
   }
