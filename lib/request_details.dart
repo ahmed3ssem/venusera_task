@@ -20,13 +20,11 @@ class _RequestDetailsState extends State<RequestDetails> {
     return GridView.builder(
       shrinkWrap: true,
       itemCount: 5,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 3,),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 5,),
       itemBuilder: (context, index) {
         return Card(child:
         Column( children: <Widget>[
           Container(
-              width: 150,
-              height: 100,
               decoration: new BoxDecoration(
                   color: Colors.blue[200],
                   borderRadius:

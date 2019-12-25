@@ -31,13 +31,13 @@ class _RequestState extends State<Request> {
 
   Widget buildGridView() {
     return GridView.count(
-      crossAxisCount: 3,
+      crossAxisCount: 5,
       children: List.generate(images.length, (index) {
         Asset asset = images[index];
         return AssetThumb(
           asset: asset,
-          width: 300,
-          height: 300,
+          width: 100,
+          height: 100,
         );
       }),
     );
