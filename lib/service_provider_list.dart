@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:venusera_task/request.dart';
-import 'package:venusera_task/signup.dart';
+import 'package:venusera_task/style.dart';
 
 import 'helper/image_widget.dart';
 
@@ -55,11 +54,11 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
           children: [
             Text(
               "request",
-              style: TextStyle(color: Colors.blueAccent, fontSize: 16.0),
+              style:Styles.headerLarge,
             ),
             Text(
               'request descreption',
-              style: TextStyle(color: Colors.blueAccent, fontSize: 14.0),
+              style:Styles.defualtText,
             ),
           ]),
       trailing: Container(
@@ -71,10 +70,14 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
           child:
           Icon(Icons.add_comment,
               color: Colors.blue, size: 30.0)
-
       ),
       leading:
       ImageWidget.networkImageCircleWidget("http://placehold.it/120x120&text=image1", 50, 50),
+        onTap: () {
+          //Navigator.of(context).push(new MaterialPageRoute(
+            //  builder: (_) => new CommentsOnRequest(id: "1", name: "request name"),
+              //maintainState: true));
+        }
     );
   }
 }

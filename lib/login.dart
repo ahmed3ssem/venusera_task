@@ -129,6 +129,8 @@ class _UserLoginState extends State<UserLogin> {
                       color: Colors.blue,
                       height: 40,
                       child: Text("LOGIN"),
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                      minWidth: 100,
                     ),
                   ),
                   SizedBox(
@@ -146,6 +148,8 @@ class _UserLoginState extends State<UserLogin> {
                       color: Colors.blue,
                       height: 40,
                       child: Text("SignUp"),
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                        minWidth: 100
                     ),
                   ),
                 ],

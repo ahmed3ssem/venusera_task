@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:venusera_task/login.dart';
+import 'package:venusera_task/service_provider_list.dart';
 import 'package:venusera_task/serviceprovider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -178,11 +179,17 @@ class _SignUpState extends State<SignUp> {
                     //color: Colors.green,
                     minWidth: double.infinity,
                     child: MaterialButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>ServiceProviderList()),)
+                      },
                       textColor: Colors.white,
                       color: Colors.blue,
                       height: 40,
                       child: Text("SignUp"),
+                        shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
+                        minWidth: 100
                     ),
                   ),
                 ],
