@@ -66,12 +66,8 @@ class _RequestListState extends State<RequestList> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "request",
+              "Requestequest",
               style: Styles.headerLarge,
-            ),
-            Text(
-              'request descreption',
-              style:Styles.defualtText,
             ),
           ]),
       trailing: Container(
