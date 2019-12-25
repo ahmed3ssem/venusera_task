@@ -82,9 +82,6 @@ class _RequestDetailsState extends State<RequestDetails> {
                   Styles.headerLarge)
             ]),
           ),
-        SizedBox(
-          height: 20,
-        ),
         Directionality(
           textDirection: TextDirection.ltr,
           child: new Container(

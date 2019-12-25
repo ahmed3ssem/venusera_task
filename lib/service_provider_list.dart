@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:venusera_task/request_comments.dart';
 import 'package:venusera_task/style.dart';
 
 import 'helper/image_widget.dart';
@@ -74,9 +75,9 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
       leading:
       ImageWidget.networkImageCircleWidget("http://placehold.it/120x120&text=image1", 50, 50),
         onTap: () {
-          //Navigator.of(context).push(new MaterialPageRoute(
-            //  builder: (_) => new CommentsOnRequest(id: "1", name: "request name"),
-              //maintainState: true));
+          Navigator.of(context).push(new MaterialPageRoute(
+             builder: (_) => new RequestComments(id: "1", name: "request name"),
+              maintainState: true));
         }
     );
   }
