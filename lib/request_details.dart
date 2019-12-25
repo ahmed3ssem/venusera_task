@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:venusera_task/style.dart';
 import 'helper/text_widget.dart';
 class RequestDetails extends StatefulWidget {
@@ -12,9 +11,9 @@ class RequestDetails extends StatefulWidget {
 }
 class _RequestDetailsState extends State<RequestDetails> {
 
-  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
+/*  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
   //Return String
-  String Token = prefs.getString('Token');
+  String Token = prefs.getString('Token');*/
 
 
   Widget buildGridView() {
