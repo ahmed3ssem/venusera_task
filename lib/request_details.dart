@@ -15,8 +15,53 @@ class _RequestDetailsState extends State<RequestDetails> {
 /*  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
   //Return String
   String Token = prefs.getString('Token');*/
+  List<String> listOfComment;
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    listOfComment=new List<String>();
+    listOfComment.add("comment1");
+    listOfComment.add("comment2");
+    listOfComment.add("comment3");
+    listOfComment.add("comment1");
+    listOfComment.add("comment1");
+    listOfComment.add("comment1");
+    listOfComment.add("comment1");
 
+  }
+  Widget _makeCard(BuildContext context, int index) {
+    return Card(
+      elevation: 8.0,
+      margin: new EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white70),
+        child: _makeListTile(context, index),
+      ),
+    );
+  }
 
+  Widget _makeListTile(BuildContext context, int index) {
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+      title: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              listOfComment[index],
+              style: Styles.headerLarge,
+            ),
+          ]),
+      trailing: Container(
+          padding: EdgeInsets.only(left: 12.0),
+          decoration: new BoxDecoration(
+              border: new Border(
+                  right: new BorderSide(width: 1.0, color: Colors.white24))),
+          child:
+          Icon(Icons.comment, color: Colors.blue, size: 30.0)),
+      onTap: () {},
+    );
+  }
   Widget buildGridView() {
     return GridView.builder(
         shrinkWrap: true,
@@ -31,26 +76,15 @@ class _RequestDetailsState extends State<RequestDetails> {
   }
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(
-        centerTitle: true ,
-        title: Text(
-            'Request Details',
-            style: Styles.headerSmall
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Add comment"),
+          centerTitle: true,
         ),
-        backgroundColor: Styles.defualtColor,
-        iconTheme: new IconThemeData(color: Colors.blue),
-      ),
-      backgroundColor: Styles.defualtColor,
-    body:SingleChildScrollView(
-    child:Column(
-      children: <Widget>[
-        SizedBox(
-          height: 20,
-        ),
-         new Container(
-            padding: const EdgeInsets.all(20.0),
-           margin: const EdgeInsets.all(20.0),
+        body:Column(children: [
+          new Container(
+            padding: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(10.0),
             decoration: new BoxDecoration(
               color: Colors.blue[200],
               borderRadius:
@@ -68,25 +102,26 @@ class _RequestDetailsState extends State<RequestDetails> {
                   Styles.headerLarge)
             ]),
           ),
-        Directionality(
-          textDirection: TextDirection.ltr,
-          child: new Container(
-            padding: const EdgeInsets.all(20.0),
-            margin: const EdgeInsets.all(20.0),
-            decoration: new BoxDecoration(
-              color: Colors.blue[200],
-              borderRadius:
-              BorderRadius.all(Radius.circular(20.0)),
+          Directionality(
+            textDirection: TextDirection.ltr,
+            child: new Container(
+              padding: const EdgeInsets.all(10.0),
+              margin: const EdgeInsets.all(10.0),
+              decoration: new BoxDecoration(
+                color: Colors.blue[200],
+                borderRadius:
+                BorderRadius.all(Radius.circular(20.0)),
+              ),
+              child:buildGridView() ,
             ),
-            child:buildGridView() ,
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-      ],
-    ),
-    ),
-    );
+          Expanded(
+              child: SizedBox(
+                  child: ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: listOfComment.length,
+                      itemBuilder: _makeCard))),
+        ]));
   }
 }

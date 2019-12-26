@@ -66,9 +66,8 @@ class _RequestState extends State<Request> {
   }
 
   Future saveImage(Asset asset) async {
-    ByteData byteData = await asset.requestOriginal();
-    List<int> imageData = byteData.buffer.asUint8List();
-    print(imageData);
+    var bytes = await rootBundle.load(asset.name);
+    var asBase64 = base64.encode(bytes.buffer.asUint8List());
   }
 
   Future<void> loadAssets() async {
@@ -194,10 +193,10 @@ class _RequestState extends State<Request> {
                 shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0))
             ),
           ),
-          //RaisedButton(
-          //child: Text("Save Image"),
-          //onPressed: () => saveImage,
-          //),
+          RaisedButton(
+          child: Text("Save Image"),
+          onPressed: () => saveImage,
+          ),
           Expanded(
             child: buildGridView(),
           ),
