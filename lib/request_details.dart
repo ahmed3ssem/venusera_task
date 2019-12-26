@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:venusera_task/style.dart';
+import 'helper/image_widget.dart';
 import 'helper/text_widget.dart';
 class RequestDetails extends StatefulWidget {
 
@@ -18,26 +19,14 @@ class _RequestDetailsState extends State<RequestDetails> {
 
   Widget buildGridView() {
     return GridView.builder(
-      shrinkWrap: true,
-      itemCount: 5,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount( crossAxisCount: 5,),
-      itemBuilder: (context, index) {
-        return Card(child:
-        Column( children: <Widget>[
-          Container(
-              decoration: new BoxDecoration(
-                  color: Colors.blue[200],
-                  borderRadius:
-                  new BorderRadius.all(const Radius.circular(8.0)),
-                  image: new DecorationImage(
-                    fit: BoxFit.fill,
-                    colorFilter: new ColorFilter.mode(
-                        Colors.black.withOpacity(0.9), BlendMode.dstATop),
-                    image: new NetworkImage("http://placehold.it/120x120&text=image1"),
-                  ))),
-        ],)
-        );
-      },
+        shrinkWrap: true,
+        itemCount: 5,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5,),
+        itemBuilder: (context, index) {
+          return ImageWidget.networkImageCircleWidget(
+              "http://placehold.it/120x120&text=image1", 50, 50);
+        }
     );
   }
   @override

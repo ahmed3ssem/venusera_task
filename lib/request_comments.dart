@@ -18,6 +18,14 @@ class RequestComments extends StatefulWidget {
 }
 
 class _RequestCommentsState extends State<RequestComments> {
+  List<String> listOfComment;
+  static TextEditingController CommentEditingContrller =
+  TextEditingController();
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    listOfComment=new List<String>();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +72,7 @@ class _RequestCommentsState extends State<RequestComments> {
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: 20,
+                  itemCount:listOfComment.length,
                   itemBuilder: _makeCard))),
           new Container(
               padding: const EdgeInsets.all(10.0),
@@ -72,9 +80,9 @@ class _RequestCommentsState extends State<RequestComments> {
               child: new Directionality(
                 textDirection: TextDirection.ltr,
                 child: new TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  //controller: DescriptionController,
+                  //keyboardType: TextInputType.multiline,
+                  //maxLines: null,
+                  controller:CommentEditingContrller,
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue, width: 5.0),
@@ -91,9 +99,7 @@ class _RequestCommentsState extends State<RequestComments> {
             //color: Colors.green,
             minWidth: 70,
             child: MaterialButton(
-              onPressed: () =>
-              {
-              },
+              onPressed:_insertComment,
               textColor: Colors.white,
               color: Colors.blue,
               height: 40,
@@ -105,7 +111,12 @@ class _RequestCommentsState extends State<RequestComments> {
           ),
         ]));
   }
-
+  void _insertComment() {
+    setState(() {
+      listOfComment = List.from(listOfComment)
+        ..add(CommentEditingContrller.text);
+    });
+  }
   Widget _makeCard(BuildContext context, int index) {
     return Card(
       elevation: 8.0,
@@ -125,7 +136,7 @@ class _RequestCommentsState extends State<RequestComments> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Comment",
+              '${listOfComment[index]}',
               style: Styles.headerLarge,
             ),
           ]),
@@ -136,8 +147,6 @@ class _RequestCommentsState extends State<RequestComments> {
                   right: new BorderSide(width: 1.0, color: Colors.white24))),
           child:
           Icon(Icons.comment, color: Colors.blue, size: 30.0)),
-      leading: ImageWidget.networkImageCircleWidget(
-          "http://placehold.it/120x120&text=image1", 50, 50),
       onTap: () {},
     );
   }
@@ -149,22 +158,9 @@ class _RequestCommentsState extends State<RequestComments> {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 5,),
       itemBuilder: (context, index) {
-        return Card(child:
-        Column(children: <Widget>[
-          Container(
-              decoration: new BoxDecoration(
-                  color: Colors.blue[200],
-                  borderRadius:
-                  new BorderRadius.all(const Radius.circular(8.0)),
-                  image: new DecorationImage(
-                    fit: BoxFit.fill,
-                    colorFilter: new ColorFilter.mode(
-                        Colors.black.withOpacity(0.9), BlendMode.clear),
-                    image:new NetworkImage("https://example.com/image.png"),
-                  ))),
-        ],)
+        return ImageWidget.networkImageCircleWidget(
+            "http://placehold.it/120x120&text=image1", 50, 50);
+      }
         );
-      },
-    );
   }
 }
