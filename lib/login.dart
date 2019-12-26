@@ -5,6 +5,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:venusera_task/request_list.dart';
+import 'package:venusera_task/resource/request_provider.dart';
 import 'package:venusera_task/service_provider_list.dart';
 import 'package:venusera_task/serviceprovider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -19,9 +20,8 @@ class _UserLoginState extends State<UserLogin> {
 
   static TextEditingController EmailEditingContrller = TextEditingController();
   static TextEditingController PassEditingContrller = TextEditingController();
-
+  RequestAPIProvider requestAPIProvider=new RequestAPIProvider();
   String Token , UserType , ID;
-
 
   void LoginValidate()
   {

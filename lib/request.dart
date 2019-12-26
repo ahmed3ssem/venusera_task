@@ -66,8 +66,10 @@ class _RequestState extends State<Request> {
   }
 
   Future saveImage(Asset asset) async {
+    print("Messi");
     var bytes = await rootBundle.load(asset.name);
     var asBase64 = base64.encode(bytes.buffer.asUint8List());
+    print(asBase64.toString());
   }
 
   Future<void> loadAssets() async {
