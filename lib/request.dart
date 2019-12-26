@@ -1,6 +1,10 @@
+import 'dart:convert';
+import 'package:dio/dio.dart' as perfix;
 import 'package:flutter/cupertino.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:venusera_task/style.dart';
 
@@ -24,9 +28,27 @@ class _RequestState extends State<Request> {
   static String RequestDescription =
       RequestDescriptionEditingContrller.toString();
 
+
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> SignUpApi()
+  async {
+    var dio = Dio();
+    int ClientId ;
+    /*  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
+  //Return String
+  ClientId = prefs.getString('ClientId');*/
+      perfix.Response  response = await dio.post("http://myousif-001-site1.dtempurl.com/api/users/Register", data: {"Name": RequestEditingContrller.text,"Date":RequestDateEditingContrller.text,"Description":RequestDescriptionEditingContrller.text,"ClientID":ClientId,"Images":""},options: Options(
+      followRedirects: false,
+      validateStatus: (status) {
+        return status < 500;
+      },
+    ),
+    );
+    Map<String, dynamic> user = jsonDecode(response.toString());
   }
 
   Widget buildGridView() {

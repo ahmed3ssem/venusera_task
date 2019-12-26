@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:venusera_task/login.dart';
 import 'package:venusera_task/service_provider_list.dart';
-import 'package:venusera_task/serviceprovider.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -124,8 +123,19 @@ class _SignUpState extends State<SignUp> {
         );
         Navigator.push(context, MaterialPageRoute(builder: (context)=>UserLogin()));
       }
-
   }
+
+   void toJson() {
+    Map<String, dynamic> map() =>
+        {
+          'name': "sdaasd",
+          'email': "sdasa",
+          'dob': "dsad"
+        };
+    String result = jsonEncode(map());
+    print('['+result+']');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -255,9 +265,7 @@ class _SignUpState extends State<SignUp> {
                     //color: Colors.green,
                     minWidth: double.infinity,
                     child: MaterialButton(
-                      onPressed: () => {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceProviderList()))
-                      },
+                      onPressed: toJson,
                       textColor: Colors.white,
                       color: Colors.blue,
                       height: 40,
