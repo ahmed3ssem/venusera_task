@@ -24,7 +24,12 @@ class _RequestCommentsState extends State<RequestComments> {
   static TextEditingController CommentController = TextEditingController();
   int ServiceProviderID , Requestid;
   String Token;
-
+  List<String> listOfComment;
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    listOfComment=new List<String>();
+  }
   /*  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
   //Return String
   Token = prefs.getString('Token');
@@ -91,7 +96,7 @@ class _RequestCommentsState extends State<RequestComments> {
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: 20,
+                  itemCount: listOfComment.length,
                   itemBuilder: _makeCard))),
           new Container(
               padding: const EdgeInsets.all(10.0),
@@ -118,9 +123,7 @@ class _RequestCommentsState extends State<RequestComments> {
             //color: Colors.green,
             minWidth: 70,
             child: MaterialButton(
-              onPressed: () =>
-              {
-              },
+              onPressed:_insertComment,
               textColor: Colors.white,
               color: Colors.blue,
               height: 40,
@@ -132,7 +135,13 @@ class _RequestCommentsState extends State<RequestComments> {
           ),
         ]));
   }
-
+  void _insertComment() {
+    setState(() {
+      listOfComment = List.from(listOfComment)
+        ..add(CommentController.text);
+    });
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
   Widget _makeCard(BuildContext context, int index) {
     return Card(
       elevation: 8.0,
@@ -152,7 +161,7 @@ class _RequestCommentsState extends State<RequestComments> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              "Comment",
+              listOfComment[index],
               style: Styles.headerLarge,
             ),
           ]),
@@ -163,35 +172,20 @@ class _RequestCommentsState extends State<RequestComments> {
                   right: new BorderSide(width: 1.0, color: Colors.white24))),
           child:
           Icon(Icons.comment, color: Colors.blue, size: 30.0)),
-      leading: ImageWidget.networkImageCircleWidget(
-          "http://placehold.it/120x120&text=image1", 50, 50),
       onTap: () {},
     );
   }
-
   Widget buildGridView() {
     return GridView.builder(
-      shrinkWrap: true,
-      itemCount: 5,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 5,),
-      itemBuilder: (context, index) {
-        return Card(child:
-        Column(children: <Widget>[
-          Container(
-              decoration: new BoxDecoration(
-                  color: Colors.blue[200],
-                  borderRadius:
-                  new BorderRadius.all(const Radius.circular(8.0)),
-                  image: new DecorationImage(
-                    fit: BoxFit.fill,
-                    colorFilter: new ColorFilter.mode(
-                        Colors.black.withOpacity(0.9), BlendMode.clear),
-                    image:new NetworkImage("https://example.com/image.png"),
-                  ))),
-        ],)
-        );
-      },
+        shrinkWrap: true,
+        itemCount: 5,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5,),
+        itemBuilder: (context, index) {
+          return ImageWidget.networkImageCircleWidget(
+              "http://placehold.it/120x120&text=image1", 50, 50);
+        }
     );
   }
+
 }
