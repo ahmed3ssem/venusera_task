@@ -19,7 +19,7 @@ class _UserLoginState extends State<UserLogin> {
   static TextEditingController EmailEditingContrller = TextEditingController();
   static TextEditingController PassEditingContrller = TextEditingController();
 
-  String Token , UserType;
+  String Token , UserType , ID;
 
 
   void LoginValidate()
@@ -79,8 +79,10 @@ class _UserLoginState extends State<UserLogin> {
     else
     {
       Token = user['result']['token'];
+      ID = user['result']['token'];
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('Token', Token);
+      prefs.setString("ID", ID);
       if(user['result']['userType']=="Client")
         {
           Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestList()));

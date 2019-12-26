@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:venusera_task/helper/text_widget.dart';
@@ -5,7 +8,6 @@ import 'package:venusera_task/request.dart';
 import 'package:venusera_task/request_details.dart';
 import 'package:venusera_task/signup.dart';
 import 'package:venusera_task/style.dart';
-
 import 'helper/image_widget.dart';
 
 class RequestComments extends StatefulWidget {
@@ -18,6 +20,31 @@ class RequestComments extends StatefulWidget {
 }
 
 class _RequestCommentsState extends State<RequestComments> {
+
+  static TextEditingController CommentController = TextEditingController();
+  int ServiceProviderID , Requestid;
+  String Token;
+
+  /*  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
+  //Return String
+  Token = prefs.getString('Token');
+  Requestid = prefs.getString('Requestid');
+  ServiceProviderID = prefs.getString('ID');*/
+
+  Future<void> AddCommentApi()
+  async {
+    var dio = Dio();
+    Response response = await dio.post("http://myousif-001-site1.dtempurl.com//api/requests/"+Requestid.toString()+"/comments", data: {"ServiceProviderID": ServiceProviderID, "Comment": CommentController.text},options: Options(
+        headers: {
+        "Authorization": "Bearer "+Token},
+      followRedirects: false,
+      validateStatus: (status) {
+        return status < 500;
+      },),
+    );
+    Map<String, dynamic> user = jsonDecode(response.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +101,7 @@ class _RequestCommentsState extends State<RequestComments> {
                 child: new TextFormField(
                   keyboardType: TextInputType.multiline,
                   maxLines: null,
-                  //controller: DescriptionController,
+                  controller: CommentController,
                   decoration: new InputDecoration(
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue, width: 5.0),
