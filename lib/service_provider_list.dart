@@ -11,6 +11,7 @@ import 'helper/image_widget.dart';
 class ServiceProviderList extends StatefulWidget {
   @override
   _ServiceProviderListState createState() => _ServiceProviderListState();
+  static int id;
 }
 
 class _ServiceProviderListState extends State<ServiceProviderList> {
@@ -56,8 +57,10 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
     leading: ImageWidget.networkImageCircleWidget(
         snapshot.data.results[index].imageURL, 50, 50),
     onTap: () {
+      ServiceProviderList.id = snapshot.data.results[index].id ;
+      print(ServiceProviderList.id.toString());
     Navigator.of(context).push(new MaterialPageRoute(
-    builder: (_) => new RequestComments(id:snapshot.data.results[index].id),
+    builder: (_) => new RequestComments(),
     maintainState: true));
     },
     );

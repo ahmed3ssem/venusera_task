@@ -12,7 +12,7 @@ import 'package:venusera_task/signup.dart';
 class UserLogin extends StatefulWidget {
   @override
   _UserLoginState createState() => _UserLoginState();
-  static String Token ;
+  static String Token;
   static int ID;
 
   static List<String> RequestName = new List();

@@ -4,14 +4,13 @@ import 'package:venusera_task/model/request_list_item.dart';
 import 'package:venusera_task/request.dart';
 import 'package:venusera_task/request_details.dart';
 import 'package:venusera_task/resource/request_provider.dart';
-import 'package:venusera_task/signup.dart';
 import 'package:venusera_task/style.dart';
-
 import 'helper/image_widget.dart';
 
 class RequestList extends StatefulWidget {
   @override
   _RequestListState createState() => _RequestListState();
+  static String id;
 }
 
 class _RequestListState extends State<RequestList> {
