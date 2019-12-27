@@ -43,7 +43,7 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
     Text(
-    snapshot.data.results[index].name+"image link"+snapshot.data.imageList[0].toString(),
+    snapshot.data.results[index].name,
     style: Styles.headerLarge,
     ),
     ]),
@@ -55,7 +55,7 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
     child:
     Icon(Icons.keyboard_arrow_right, color: Colors.blue, size: 30.0)),
     leading: ImageWidget.networkImageCircleWidget(
-    snapshot.data.imageList[0].toString(), 50, 50),
+        snapshot.data.results[index].imageURL, 50, 50),
     onTap: () {
       ServiceProviderList.id = snapshot.data.results[index].id ;
       print(ServiceProviderList.id.toString());

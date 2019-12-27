@@ -21,9 +21,22 @@ class RequestAPIProvider {
       throw Exception('Faield to load request');
     }
   }
+  Future<RequestItemModel> fetchRequestListByClientId() async {
+    final responseForRequestList = await client.get('http://myousif-001-site1.dtempurl.com/api/requests/client/'+UserLogin.ID.toString(),
+        headers: {"Accept": "application/json","Authorization": "Bearer "+UserLogin.Token});
+    print(UserLogin.ID.toString()+"dddddddddddddddd"+UserLogin.Token);
+    print(responseForRequestList.body.toString());
+    print(responseForRequestList.statusCode);
+    if (responseForRequestList.statusCode == 200) {
+      return RequestItemModel.fromJson(json.decode(responseForRequestList.body));
+    }
+    else {
+      throw Exception('Faield to load request');
+    }
+  }
   Future<OneRequestItemModel> fetchRequestByRequestId(int id) async{
     print('fetch one request by id');
-    print("iddddddddddddddddddddddddddddddddddddddddd"+id.toString());
+    print("iddddd"+id.toString());
     final responseForRequest=await client.get('http://myousif-001-site1.dtempurl.com/api/requests/'+id.toString(),
         headers: {"Accept": "application/json","Authorization": "Bearer "+UserLogin.Token});
     print(responseForRequest.body.toString());
