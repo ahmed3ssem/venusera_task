@@ -51,6 +51,16 @@ class _Image{
   String _URL;
   _Image(result){
     _URL=result['image'];
+    _URL=result['image'];
+    var spliting =_URL.split("~");
+    print(spliting.length);
+    if(spliting.length>=2) {
+      final replace=spliting[1].replaceAll("\\", "/");
+      _URL = "http://myousif-001-site1.dtempurl.com"+replace;
+    }
+    else{
+      _URL="https://cdn.dribbble.com/users/1963449/screenshots/5915645/404_not_found.png";
+    }
   }
   String get url=>_URL;
 }

@@ -34,7 +34,7 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
     body:FutureBuilder<RequestItemModel>(
     future:requestAPIProvider.fetchRequestList(),
     builder: (context, snapshot) {
-    Widget _makeListTile(BuildContext context, int index) {
+      Widget _makeListTile(BuildContext context, int index) {
     return ListTile(
     contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
     title: Column(
@@ -42,7 +42,7 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
     crossAxisAlignment: CrossAxisAlignment.center,
     children: [
     Text(
-    snapshot.data.results[index].name,
+    snapshot.data.results[index].name+"image link"+snapshot.data.imageList[0].toString(),
     style: Styles.headerLarge,
     ),
     ]),
