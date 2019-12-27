@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:venusera_task/model/request_item.dart';
 import 'package:venusera_task/resource/request_provider.dart';
 import 'package:venusera_task/style.dart';
 import 'helper/image_widget.dart';
@@ -6,9 +7,8 @@ import 'helper/text_widget.dart';
 import 'model/request_list_item.dart';
 class RequestDetails extends StatefulWidget {
 
-  final String id;
-  final String name;
-  RequestDetails({this.id, this.name});
+  final int id;
+  RequestDetails({this.id});
   @override
   _RequestDetailsState createState() => _RequestDetailsState();
 }
@@ -18,7 +18,6 @@ class _RequestDetailsState extends State<RequestDetails> {
   //Return String
   String Token = prefs.getString('Token');*/
   RequestAPIProvider requestAPIProvider=new RequestAPIProvider();
-  Future<RequestItemModel> requestList;
   List<String> listOfComment;
   @override void initState() {
     // TODO: implement initState
@@ -26,8 +25,6 @@ class _RequestDetailsState extends State<RequestDetails> {
     listOfComment=new List<String>();
     listOfComment.add("comment1");
     listOfComment.add("comment2");
-    requestList=requestAPIProvider.fetchRequestList();
-
   }
   Widget buildGridView() {
     return GridView.builder(
@@ -45,12 +42,12 @@ class _RequestDetailsState extends State<RequestDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Add comment"),
+          title: Text("Request Detials"),
           centerTitle: true,
         ),
         body:
-          FutureBuilder<RequestItemModel>(
-    future:requestAPIProvider.fetchRequestList(),
+          FutureBuilder<OneRequestItemModel>(
+    future:requestAPIProvider.fetchRequestByRequestId(widget.id),
     builder: (context, snapshot) {
       Widget _makeListTile(BuildContext context, int index) {
         return ListTile(
@@ -60,7 +57,7 @@ class _RequestDetailsState extends State<RequestDetails> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  snapshot.data.results[0].commentList[index].comment,
+                  snapshot.data.result.commentList[index].comment+"id"+widget.id.toString(),
                   style: Styles.headerLarge,
                 ),
               ]),
@@ -96,13 +93,13 @@ class _RequestDetailsState extends State<RequestDetails> {
             ),
             child: new Column(children: [
               TextWidget.textWidgetStyle(
-                  snapshot.data.results[0].name,
+                  snapshot.data.result.name,
                   Styles.headerLarge),
               TextWidget.textWidgetStyle(
-                  snapshot.data.results[0].data,
+                  snapshot.data.result.data,
                   Styles.headerLarge),
               TextWidget.textWidgetStyle(
-                  snapshot.data.results[0].description,
+                  snapshot.data.result.description,
                   Styles.headerLarge)
             ]),
           ),
@@ -124,7 +121,7 @@ class _RequestDetailsState extends State<RequestDetails> {
                   child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      itemCount: snapshot.data.results[0].commentList.length,
+                      itemCount: snapshot.data.result.commentList.length,
                       itemBuilder: _makeCard))),
         ]);}));
   }

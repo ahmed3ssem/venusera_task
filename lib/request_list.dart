@@ -16,12 +16,10 @@ class RequestList extends StatefulWidget {
 
 class _RequestListState extends State<RequestList> {
   RequestAPIProvider requestAPIProvider=new RequestAPIProvider();
-  Future<RequestItemModel> requestList;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    requestList=requestAPIProvider.fetchRequestList();
   }
   @override
   Widget build(BuildContext context) {
@@ -53,10 +51,10 @@ class _RequestListState extends State<RequestList> {
                       child:
                       Icon(Icons.keyboard_arrow_right, color: Colors.blue, size: 30.0)),
                   leading: ImageWidget.networkImageCircleWidget(
-                      snapshot.data.imageList[0].toString(), 50, 50),
+                      snapshot.data.imageList[0].url, 50, 50),
                   onTap: () {
                     Navigator.of(context).push(new MaterialPageRoute(
-                        builder: (_) => new RequestDetails(id: "1", name: "request name"),
+                        builder: (_) => new RequestDetails(id: snapshot.data.results[index].id),
                         maintainState: true));
                   },
                 );
