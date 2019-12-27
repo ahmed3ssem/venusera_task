@@ -36,6 +36,8 @@ class _Request{
   String _description;
   int _clientID;
   List<_Comment> _commentList=new List<_Comment>();
+  List<_Image> _images=new List<_Image>();
+  String _imageURL;
   _Request(result){
     _id=result['id'];
     _name=result['name'];
@@ -48,6 +50,16 @@ class _Request{
         _commentList.add(comment);
       }
     }
+    if(result['images'].length!=null) {
+      for (int i = 0; i < result['images'].length; i++) {
+        _Image image = _Image(result['images'][i]);
+        _imageURL=image._URL;
+        _images.add(image);
+      }
+      if(_imageURL==null||_imageURL==""){
+        _imageURL="https://cdn.dribbble.com/users/1963449/screenshots/5915645/404_not_found.png";
+      }
+    }
   }
   int get id=>_id;
   String get name=>_name;
@@ -55,6 +67,8 @@ class _Request{
   String get description=>_description;
   int get clientId=>_clientID;
   List<_Comment> get commentList=>_commentList;
+  List<_Image> get images=>_images;
+  String get imageURL=>_imageURL;
 }
 class _Image{
   String _URL;
