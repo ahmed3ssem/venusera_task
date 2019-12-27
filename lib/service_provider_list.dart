@@ -60,7 +60,7 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
       ServiceProviderList.id = snapshot.data.results[index].id ;
       print(ServiceProviderList.id.toString());
     Navigator.of(context).push(new MaterialPageRoute(
-    builder: (_) => new RequestComments(),
+    builder: (_) => new RequestComments(id:index),
     maintainState: true));
     },
     );

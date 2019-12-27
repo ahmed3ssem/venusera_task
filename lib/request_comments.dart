@@ -37,10 +37,11 @@ class _RequestCommentsState extends State<RequestComments> {
 
   Future<void> AddCommentApi()
   async {
+    //FocusScope.of(context).requestFocus(FocusNode());
     var dio = Dio();
     Response response = await dio.post("http://myousif-001-site1.dtempurl.com/api/requests/"+RequestList.id.toString()+"/comments", data: {"ServiceProviderID": UserLogin.ID, "Comment": CommentController.text,"RequestID" : RequestList.id},options: Options(
       headers: {
-        "Authorization": "Bearer "+Token},
+        "Authorization": "Bearer "+UserLogin.Token},
       followRedirects: false,
       validateStatus: (status) {
         return status < 500;
@@ -49,7 +50,9 @@ class _RequestCommentsState extends State<RequestComments> {
     Map<String, dynamic> user = jsonDecode(response.toString());
     if(user['statusCode']==200)
     {
-      _insertComment();
+      print("refresh data in list");
+      //_insertComment();
+      setState(() {});
     }
     else
     {
@@ -110,7 +113,7 @@ class _RequestCommentsState extends State<RequestComments> {
               Widget buildGridView() {
                 return GridView.builder(
                     shrinkWrap: true,
-                    itemCount:snapshot.data.result.images.length,
+                    itemCount: snapshot.data.result.images.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 5,),
                     itemBuilder: (context, index) {
