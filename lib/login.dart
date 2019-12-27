@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,13 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:venusera_task/request_list.dart';
 import 'package:venusera_task/resource/request_provider.dart';
 import 'package:venusera_task/service_provider_list.dart';
-import 'package:venusera_task/serviceprovider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:venusera_task/signup.dart';
 
 class UserLogin extends StatefulWidget {
   @override
   _UserLoginState createState() => _UserLoginState();
+  static String Token , ID;
 }
 
 class _UserLoginState extends State<UserLogin> {
@@ -21,7 +20,8 @@ class _UserLoginState extends State<UserLogin> {
   static TextEditingController EmailEditingContrller = TextEditingController();
   static TextEditingController PassEditingContrller = TextEditingController();
   RequestAPIProvider requestAPIProvider=new RequestAPIProvider();
-  String Token , UserType , ID;
+
+   String Token , UserType , ID;
 
   void LoginValidate()
   {
@@ -81,16 +81,15 @@ class _UserLoginState extends State<UserLogin> {
     {
       Token = user['result']['token'];
       ID = user['result']['token'];
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      prefs.setString('Token', Token);
-      prefs.setString("ID", ID);
+      UserLogin.Token = Token;
+      UserLogin.ID = ID;
       if(user['result']['userType']=="Client")
         {
           Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestList()));
         }
       else
         {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=>ServiceProvider()));
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>ServiceProviderList()));
         }
     }
     }
@@ -163,9 +162,7 @@ class _UserLoginState extends State<UserLogin> {
                     //color: Colors.green,
                     minWidth: double.infinity,
                     child: MaterialButton(
-                      onPressed: () => {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => RequestList()))
-                      },
+                      onPressed: LoginValidate,
                       textColor: Colors.white,
                       color: Colors.blue,
                       height: 40,
