@@ -3,6 +3,7 @@ class RequestItemModel{
   String _message;
   List<_Request> _results=[];
   List<_Image> _images=[];
+  List<String> listOfUrls=[];
   RequestItemModel.fromJson(Map<String,dynamic> parsedJson){
     print(parsedJson["result"].length.toString()+"in request list");
     _status=parsedJson['status'];
@@ -20,13 +21,11 @@ class RequestItemModel{
       }
       temp.add(result);
     }
-
     _results=temp;
     _images=temp2;
   }
-
   List<_Request> get results=>_results;
- String get status=>_status;
+  String get status=>_status;
   String get message=>_message;
   List<_Image> get imageList=>_images;
 }
@@ -61,7 +60,18 @@ class _Image{
   String _URL;
   _Image(result){
     _URL=result['image'];
+    var spliting =_URL.split("~");
+    print(spliting.length);
+    if(spliting.length>=2) {
+      final replace=spliting[1].replaceAll("\\", "/");
+      _URL = "http://myousif-001-site1.dtempurl.com"+replace;
+
+    }
+    else{
+      _URL="https://cdn.dribbble.com/users/1963449/screenshots/5915645/404_not_found.png";
+    }
   }
+
   String get url=>_URL;
 }
 class _Comment{
