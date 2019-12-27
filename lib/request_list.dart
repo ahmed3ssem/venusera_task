@@ -51,7 +51,7 @@ class _RequestListState extends State<RequestList> {
                       child:
                       Icon(Icons.keyboard_arrow_right, color: Colors.blue, size: 30.0)),
                   leading: ImageWidget.networkImageCircleWidget(
-                      snapshot.data.imageList[0].url, 50, 50),
+                      snapshot.data.results[index].imageURL, 50, 50),
                   onTap: () {
                     Navigator.of(context).push(new MaterialPageRoute(
                         builder: (_) => new RequestDetails(id: snapshot.data.results[index].id),

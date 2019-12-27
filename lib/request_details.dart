@@ -26,18 +26,6 @@ class _RequestDetailsState extends State<RequestDetails> {
     listOfComment.add("comment1");
     listOfComment.add("comment2");
   }
-  Widget buildGridView() {
-    return GridView.builder(
-        shrinkWrap: true,
-        itemCount: 5,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,),
-        itemBuilder: (context, index) {
-          return ImageWidget.networkImageCircleWidget(
-              "http://placehold.it/120x120&text=image1", 50, 50);
-        }
-    );
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +45,7 @@ class _RequestDetailsState extends State<RequestDetails> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  snapshot.data.result.commentList[index].comment+"id"+widget.id.toString(),
+                  snapshot.data.result.commentList[index].comment,
                   style: Styles.headerLarge,
                 ),
               ]),
@@ -79,6 +67,18 @@ class _RequestDetailsState extends State<RequestDetails> {
             decoration: BoxDecoration(color: Colors.white70),
             child: _makeListTile(context, index),
           ),
+        );
+      }
+      Widget buildGridView() {
+        return GridView.builder(
+            shrinkWrap: true,
+            itemCount: snapshot.data.result.images.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 5,),
+            itemBuilder: (context, index) {
+              return ImageWidget.networkImageCircleWidget(
+                  snapshot.data.result.images[index].url, 50, 50);
+            }
         );
       }
       if (!snapshot.hasData) return Center(child: CircularProgressIndicator());

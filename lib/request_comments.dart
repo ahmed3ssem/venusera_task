@@ -69,7 +69,7 @@ class _RequestCommentsState extends State<RequestComments> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          snapshot.data.result.commentList[index].comment+"id"+widget.id.toString(),
+                          snapshot.data.result.commentList[index].comment,
                           style: Styles.headerLarge,
                         ),
                       ]),
@@ -91,6 +91,18 @@ class _RequestCommentsState extends State<RequestComments> {
                     decoration: BoxDecoration(color: Colors.white70),
                     child: _makeListTile(context, index),
                   ),
+                );
+              }
+              Widget buildGridView() {
+                return GridView.builder(
+                    shrinkWrap: true,
+                    itemCount:snapshot.data.result.images.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 5,),
+                    itemBuilder: (context, index) {
+                      return ImageWidget.networkImageCircleWidget(
+                          snapshot.data.result.images[index].url, 50, 50);
+                    }
                 );
               }
               if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
@@ -179,50 +191,4 @@ class _RequestCommentsState extends State<RequestComments> {
     });
     FocusScope.of(context).requestFocus(FocusNode());
   }
-  Widget _makeCard(BuildContext context, int index) {
-    return Card(
-      elevation: 8.0,
-      margin: new EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
-      child: Container(
-        decoration: BoxDecoration(color: Colors.white70),
-        child: _makeListTile(context, index),
-      ),
-    );
-  }
-
-  Widget _makeListTile(BuildContext context, int index) {
-    return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-      title: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              listOfComment[index],
-              style: Styles.headerLarge,
-            ),
-          ]),
-      trailing: Container(
-          padding: EdgeInsets.only(left: 12.0),
-          decoration: new BoxDecoration(
-              border: new Border(
-                  right: new BorderSide(width: 1.0, color: Colors.white24))),
-          child:
-          Icon(Icons.comment, color: Colors.blue, size: 30.0)),
-      onTap: () {},
-    );
-  }
-  Widget buildGridView() {
-    return GridView.builder(
-        shrinkWrap: true,
-        itemCount: 5,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 5,),
-        itemBuilder: (context, index) {
-          return ImageWidget.networkImageCircleWidget(
-              "http://placehold.it/120x120&text=image1", 50, 50);
-        }
-    );
-  }
-
 }
