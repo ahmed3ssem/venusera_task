@@ -1,21 +1,38 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:venusera_task/login.dart';
+import 'package:venusera_task/model/request_item.dart';
 import 'package:venusera_task/model/request_list_item.dart';
 
 class RequestAPIProvider {
   Client client = Client();
-  String Token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjQiLCJyb2xlIjoiU2VydmljZVByb3ZpZGVyIiwibmJmIjoxNTc3Mzg2MzA4LCJleHAiOjE1Nzc5OTExMDgsImlhdCI6MTU3NzM4NjMwOH0.bFgbRp7GPIMnEOAOkSJfwVrN4Onzbxr4_7HT05uIlNE";
   Future<RequestItemModel> fetchRequestList() async {
     print('fetch requests');
-    final response = await client.get('http://myousif-001-site1.dtempurl.com/api/requests',
-        headers: {"Accept": "application/json","Authorization": "Bearer "+Token});
-    print(response.body.toString());
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      return RequestItemModel.fromJson(json.decode(response.body));
+    final responseForRequestList = await client.get('http://myousif-001-site1.dtempurl.com/api/requests',
+        headers: {"Accept": "application/json","Authorization": "Bearer "+UserLogin.Token});
+    //print(responseForRequestList.body.toString());
+    //print(responseForRequestList.statusCode);
+    if (responseForRequestList.statusCode == 200) {
+      return RequestItemModel.fromJson(json.decode(responseForRequestList.body));
     }
     else {
+      throw Exception('Faield to load request');
+    }
+  }
+  Future<OneRequestItemModel> fetchRequestByRequestId(int id) async{
+    print('fetch one request by id');
+    print("iddddddddddddddddddddddddddddddddddddddddd"+id.toString());
+    final responseForRequest=await client.get('http://myousif-001-site1.dtempurl.com/api/requests/'+id.toString(),
+        headers: {"Accept": "application/json","Authorization": "Bearer "+UserLogin.Token});
+    print(responseForRequest.body.toString());
+    print(responseForRequest.statusCode);
+    if(responseForRequest.statusCode==200){
+      var result = json.decode(responseForRequest.body);
+      print(result);
+      return OneRequestItemModel.fromJson(json.decode(responseForRequest.body));
+    }
+    else{
       throw Exception('Faield to load request');
     }
   }

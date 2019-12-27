@@ -1,34 +1,16 @@
-class RequestItemModel{
+class OneRequestItemModel{
   String _status;
   String _message;
-  List<_Request> _results=[];
-  List<_Image> _images=[];
-  RequestItemModel.fromJson(Map<String,dynamic> parsedJson){
-    print(parsedJson["result"].length.toString()+"in request list");
+  _Request _result;
+  OneRequestItemModel.fromJson(Map<String,dynamic> parsedJson){
+    print(parsedJson["result"].length.toString()+"in one request ");
     _status=parsedJson['status'];
     _message=parsedJson['message'];
-    List<_Request> temp=[];
-    List<_Image> temp2=[];
-    for (int i = 0; i < parsedJson['result'].length; i++) {
-      _Request result=_Request(parsedJson['result'][i]);
-      if(parsedJson['result'][i]['images'].length!=null){
-        print(parsedJson['result'][i]['images'].length.toString()+"in request item modek");
-        for (int j= 0; j< parsedJson['result'][i]['images'].length; j++){
-          _Image image=_Image(parsedJson['result'][i]['images'][j]);
-          temp2.add(image);
-        }
-      }
-      temp.add(result);
-    }
-
-    _results=temp;
-    _images=temp2;
+    _result=_Request(parsedJson['result']);
   }
-
-  List<_Request> get results=>_results;
- String get status=>_status;
+  _Request get result=>_result;
+  String get status=>_status;
   String get message=>_message;
-  List<_Image> get imageList=>_images;
 }
 class _Request{
   int _id;
@@ -36,6 +18,7 @@ class _Request{
   String _date;
   String _description;
   int _clientID;
+  List<_Image> _images=new List<_Image>();
   List<_Comment> _commentList=new List<_Comment>();
   _Request(result){
     _id=result['id'];
@@ -49,6 +32,12 @@ class _Request{
         _commentList.add(comment);
       }
     }
+    if(result['images'].length!=null) {
+      for (int i = 0; i < result['images'].length; i++) {
+        _Image image = _Image(result['images'][i]);
+        _images.add(image);
+      }
+    }
   }
   int get id=>_id;
   String get name=>_name;
@@ -56,6 +45,7 @@ class _Request{
   String get description=>_description;
   int get clientId=>_clientID;
   List<_Comment> get commentList=>_commentList;
+  List<_Image> get images=>_images;
 }
 class _Image{
   String _URL;
