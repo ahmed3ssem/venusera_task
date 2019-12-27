@@ -13,6 +13,11 @@ class UserLogin extends StatefulWidget {
   @override
   _UserLoginState createState() => _UserLoginState();
   static String Token , ID;
+
+  static List<String> RequestName = new List();
+  static List<String> RequestID = new List();
+  static List<String> RequesImage = new List();
+  static List<String> FinalImages = new List();
 }
 
 class _UserLoginState extends State<UserLogin> {
@@ -20,6 +25,7 @@ class _UserLoginState extends State<UserLogin> {
   static TextEditingController EmailEditingContrller = TextEditingController();
   static TextEditingController PassEditingContrller = TextEditingController();
   RequestAPIProvider requestAPIProvider=new RequestAPIProvider();
+
 
    String Token , UserType , ID;
 
@@ -83,7 +89,7 @@ class _UserLoginState extends State<UserLogin> {
       ID = user['result']['token'];
       UserLogin.Token = Token;
       UserLogin.ID = ID;
-      if(user['result']['userType']=="Client")
+      if(user['result']['userType']=="1")
         {
           Navigator.push(context, MaterialPageRoute(builder: (context)=>RequestList()));
         }
@@ -93,6 +99,19 @@ class _UserLoginState extends State<UserLogin> {
         }
     }
     }
+
+  void convertImage()
+  {
+    UserLogin.FinalImages.clear();
+    var spliting;
+    String result;
+    for(int i=0;i<UserLogin.RequesImage.length;i++)
+    {
+      spliting = UserLogin.RequesImage[i].split("~");
+      result ="http://myousif-001-site1.dtempurl.com"+spliting[1];
+      UserLogin.FinalImages.add(result);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

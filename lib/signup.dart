@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:venusera_task/login.dart';
+import 'package:venusera_task/request.dart';
 import 'package:venusera_task/service_provider_list.dart';
 
 class SignUp extends StatefulWidget {
@@ -124,7 +125,7 @@ class _SignUpState extends State<SignUp> {
         Navigator.push(context, MaterialPageRoute(builder: (context)=>UserLogin()));
       }
   }
-
+/*
    void toJson() {
     Map<String, dynamic> map() =>
         {
@@ -134,7 +135,7 @@ class _SignUpState extends State<SignUp> {
         };
     String result = jsonEncode(map());
     print('['+result+']');
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -265,7 +266,7 @@ class _SignUpState extends State<SignUp> {
                     //color: Colors.green,
                     minWidth: double.infinity,
                     child: MaterialButton(
-                      onPressed: toJson,
+                      onPressed:SignUpValidation,
                       textColor: Colors.white,
                       color: Colors.blue,
                       height: 40,
