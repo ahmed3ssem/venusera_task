@@ -6,21 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:venusera_task/helper/text_widget.dart';
 import 'package:venusera_task/request.dart';
 import 'package:venusera_task/request_details.dart';
+import 'package:venusera_task/resource/request_provider.dart';
 import 'package:venusera_task/signup.dart';
 import 'package:venusera_task/style.dart';
 import 'helper/image_widget.dart';
+import 'model/request_item.dart';
 
 class RequestComments extends StatefulWidget {
-  final String id;
-  final String name;
-  RequestComments({this.id, this.name});
+  final int id;
+  RequestComments({this.id});
   @override
   _RequestCommentsState createState() => _RequestCommentsState();
 
 }
 
 class _RequestCommentsState extends State<RequestComments> {
-
+  RequestAPIProvider requestAPIProvider=new RequestAPIProvider();
   static TextEditingController CommentController = TextEditingController();
   int ServiceProviderID , Requestid;
   String Token;
@@ -57,47 +58,83 @@ class _RequestCommentsState extends State<RequestComments> {
           title: Text("Add comment"),
           centerTitle: true,
         ),
-        body:Column(children: [
-          new Container(
-            padding: const EdgeInsets.all(10.0),
-            margin: const EdgeInsets.all(10.0),
-            decoration: new BoxDecoration(
-              color: Colors.blue[200],
-              borderRadius:
-              BorderRadius.all(Radius.circular(20.0)),
-            ),
-            child: new Column(children: [
-              TextWidget.textWidgetStyle(
-                  'request name',
-                  Styles.headerLarge),
-              TextWidget.textWidgetStyle(
-                  'Request date',
-                  Styles.headerLarge),
-              TextWidget.textWidgetStyle(
-                  'sdaf asdfasf asdf asdf sssssssssssssssssssssssssssssssssssssssssssssssf sdfsdf',
-                  Styles.headerLarge)
-            ]),
-          ),
-          Directionality(
-            textDirection: TextDirection.ltr,
-            child: new Container(
-              padding: const EdgeInsets.all(10.0),
-              margin: const EdgeInsets.all(10.0),
-              decoration: new BoxDecoration(
-                color: Colors.blue[200],
-                borderRadius:
-                BorderRadius.all(Radius.circular(20.0)),
-              ),
-              child:buildGridView() ,
-            ),
-          ),
-          Expanded(
-                  child: SizedBox(
-              child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: listOfComment.length,
-                  itemBuilder: _makeCard))),
+        body:FutureBuilder<OneRequestItemModel>(
+            future:requestAPIProvider.fetchRequestByRequestId(widget.id),
+            builder: (context, snapshot) {
+              Widget _makeListTile(BuildContext context, int index) {
+                return ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                  title: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          snapshot.data.result.commentList[index].comment+"id"+widget.id.toString(),
+                          style: Styles.headerLarge,
+                        ),
+                      ]),
+                  trailing: Container(
+                      padding: EdgeInsets.only(left: 12.0),
+                      decoration: new BoxDecoration(
+                          border: new Border(
+                              right: new BorderSide(width: 1.0, color: Colors.white24))),
+                      child:
+                      Icon(Icons.comment, color: Colors.blue, size: 30.0)),
+                  onTap: () {},
+                );
+              }
+              Widget _makeCard(BuildContext context, int index) {
+                return Card(
+                  elevation: 8.0,
+                  margin: new EdgeInsets.symmetric(horizontal: 30.0, vertical: 10.0),
+                  child: Container(
+                    decoration: BoxDecoration(color: Colors.white70),
+                    child: _makeListTile(context, index),
+                  ),
+                );
+              }
+              if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+              return Column(children: [
+                new Container(
+                  padding: const EdgeInsets.all(10.0),
+                  margin: const EdgeInsets.all(10.0),
+                  decoration: new BoxDecoration(
+                    color: Colors.blue[200],
+                    borderRadius:
+                    BorderRadius.all(Radius.circular(20.0)),
+                  ),
+                  child: new Column(children: [
+                    TextWidget.textWidgetStyle(
+                        snapshot.data.result.name,
+                        Styles.headerLarge),
+                    TextWidget.textWidgetStyle(
+                        snapshot.data.result.data,
+                        Styles.headerLarge),
+                    TextWidget.textWidgetStyle(
+                        snapshot.data.result.description,
+                        Styles.headerLarge)
+                  ]),
+                ),
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: new Container(
+                    padding: const EdgeInsets.all(10.0),
+                    margin: const EdgeInsets.all(10.0),
+                    decoration: new BoxDecoration(
+                      color: Colors.blue[200],
+                      borderRadius:
+                      BorderRadius.all(Radius.circular(20.0)),
+                    ),
+                    child:buildGridView() ,
+                  ),
+                ),
+                Expanded(
+                    child: SizedBox(
+                        child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.result.commentList.length,
+                            itemBuilder: _makeCard))),
           new Container(
               padding: const EdgeInsets.all(10.0),
               margin: const EdgeInsets.all(10.0),
@@ -133,7 +170,7 @@ class _RequestCommentsState extends State<RequestComments> {
               minWidth: 100,
             ),
           ),
-        ]));
+              ]);}));
   }
   void _insertComment() {
     setState(() {

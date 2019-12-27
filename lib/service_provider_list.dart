@@ -57,7 +57,7 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
     snapshot.data.imageList[0].toString(), 50, 50),
     onTap: () {
     Navigator.of(context).push(new MaterialPageRoute(
-    builder: (_) => new RequestComments(id:"1"),
+    builder: (_) => new RequestComments(id:snapshot.data.results[index].id),
     maintainState: true));
     },
     );
