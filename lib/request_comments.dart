@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:venusera_task/helper/text_widget.dart';
+import 'package:venusera_task/login.dart';
 import 'package:venusera_task/request.dart';
 import 'package:venusera_task/request_details.dart';
+import 'package:venusera_task/request_list.dart';
 import 'package:venusera_task/resource/request_provider.dart';
 import 'package:venusera_task/signup.dart';
 import 'package:venusera_task/style.dart';
@@ -31,17 +34,12 @@ class _RequestCommentsState extends State<RequestComments> {
     super.initState();
     listOfComment=new List<String>();
   }
-  /*  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
-  //Return String
-  Token = prefs.getString('Token');
-  Requestid = prefs.getString('Requestid');
-  ServiceProviderID = prefs.getString('ID');*/
 
   Future<void> AddCommentApi()
   async {
     var dio = Dio();
-    Response response = await dio.post("http://myousif-001-site1.dtempurl.com//api/requests/"+Requestid.toString()+"/comments", data: {"ServiceProviderID": ServiceProviderID, "Comment": CommentController.text},options: Options(
-        headers: {
+    Response response = await dio.post("http://myousif-001-site1.dtempurl.com/api/requests/"+RequestList.id.toString()+"/comments", data: {"ServiceProviderID": UserLogin.ID, "Comment": CommentController.text,"RequestID" : RequestList.id},options: Options(
+      headers: {
         "Authorization": "Bearer "+Token},
       followRedirects: false,
       validateStatus: (status) {
@@ -49,6 +47,22 @@ class _RequestCommentsState extends State<RequestComments> {
       },),
     );
     Map<String, dynamic> user = jsonDecode(response.toString());
+    if(user['statusCode']==200)
+    {
+      _insertComment();
+    }
+    else
+    {
+      Fluttertoast.showToast(
+          msg: "OOPS!! Server Error",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIos: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    }
   }
 
   @override
@@ -135,41 +149,41 @@ class _RequestCommentsState extends State<RequestComments> {
                             shrinkWrap: true,
                             itemCount: snapshot.data.result.commentList.length,
                             itemBuilder: _makeCard))),
-          new Container(
-              padding: const EdgeInsets.all(10.0),
-              margin: const EdgeInsets.all(10.0),
-              child: new Directionality(
-                textDirection: TextDirection.ltr,
-                child: new TextFormField(
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  controller: CommentController,
-                  decoration: new InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 5.0),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue, width: 5.0),
-                    ),
-                    hintText: 'Comment',
+                new Container(
+                    padding: const EdgeInsets.all(10.0),
+                    margin: const EdgeInsets.all(10.0),
+                    child: new Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: new TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        controller: CommentController,
+                        decoration: new InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue, width: 5.0),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue, width: 5.0),
+                          ),
+                          hintText: 'Comment',
+                        ),
+                      ),
+                    )),
+                ButtonTheme(
+                  //elevation: 4,
+                  //color: Colors.green,
+                  minWidth: 70,
+                  child: MaterialButton(
+                    onPressed:AddCommentApi,
+                    textColor: Colors.white,
+                    color: Colors.blue,
+                    height: 40,
+                    child: Text("Add Comment"),
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)),
+                    minWidth: 100,
                   ),
                 ),
-              )),
-          ButtonTheme(
-            //elevation: 4,
-            //color: Colors.green,
-            minWidth: 70,
-            child: MaterialButton(
-              onPressed:_insertComment,
-              textColor: Colors.white,
-              color: Colors.blue,
-              height: 40,
-              child: Text("Add Comment"),
-              shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0)),
-              minWidth: 100,
-            ),
-          ),
               ]);}));
   }
   void _insertComment() {
