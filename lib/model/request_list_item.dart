@@ -36,18 +36,26 @@ class _Request{
   String _date;
   String _description;
   int _clientID;
+  List<_Comment> _commentList=new List<_Comment>();
   _Request(result){
     _id=result['id'];
     _name=result['name'];
     _date=result['date'];
     _description=result['description'];
     _clientID=result['clientID'];
+    if(result['comments'].length!=null) {
+      for (int i = 0; i < result['comments'].length; i++) {
+        _Comment comment = _Comment(result['comments'][i]);
+        _commentList.add(comment);
+      }
+    }
   }
   int get id=>_id;
   String get name=>_name;
   String get data=>_date;
   String get description=>_description;
   int get clientId=>_clientID;
+  List<_Comment> get commentList=>_commentList;
 }
 class _Image{
   String _URL;
@@ -55,4 +63,20 @@ class _Image{
     _URL=result['image'];
   }
   String get url=>_URL;
+}
+class _Comment{
+  int _id;
+  int _serviceProviderID;
+  String _comment;
+  String _serviceProviderName;
+  _Comment(result){
+    _id=result['id'];
+    _comment=result['comment'];
+    _serviceProviderID=result['serviceProviderID'];
+    _serviceProviderName=result['serviceProviderName'];
+  }
+  int get id=>_id;
+  int get serviceProviderID=>_serviceProviderID;
+  String get comment=>_comment;
+  String get serviceProviderName=>_serviceProviderName;
 }
