@@ -12,7 +12,7 @@ class RequestItemModel{
     for (int i = 0; i < parsedJson['result'].length; i++) {
       _Request result=_Request(parsedJson['result'][i]);
       if(parsedJson['result'][i]['images'].length!=null){
-        print(parsedJson['result'][i]['images'].length.toString()+"in request item modek");
+        //print(parsedJson['result'][i]['images'].length.toString()+"in request item modek");
         for (int j= 0; j< parsedJson['result'][i]['images'].length; j++){
           _Image image=_Image(parsedJson['result'][i]['images'][j]);
           temp2.add(image);
