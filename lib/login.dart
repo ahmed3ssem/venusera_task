@@ -12,7 +12,8 @@ import 'package:venusera_task/signup.dart';
 class UserLogin extends StatefulWidget {
   @override
   _UserLoginState createState() => _UserLoginState();
-  static String Token , ID;
+  static String Token;
+  static int ID;
 
   static List<String> RequestName = new List();
   static List<String> RequestID = new List();
@@ -27,7 +28,8 @@ class _UserLoginState extends State<UserLogin> {
   RequestAPIProvider requestAPIProvider=new RequestAPIProvider();
 
 
-   String Token , UserType , ID;
+   String Token , UserType;
+   int ID;
 
   void LoginValidate()
   {
@@ -86,7 +88,7 @@ class _UserLoginState extends State<UserLogin> {
     else
     {
       Token = user['result']['token'];
-      ID = user['result']['token'];
+      ID = user['result']['id'];
       UserLogin.Token = Token;
       UserLogin.ID = ID;
       if(user['result']['userType']=="1")

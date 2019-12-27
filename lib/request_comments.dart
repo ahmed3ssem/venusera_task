@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:venusera_task/helper/text_widget.dart';
+import 'package:venusera_task/login.dart';
 import 'package:venusera_task/request.dart';
 import 'package:venusera_task/request_details.dart';
+import 'package:venusera_task/service_provider_list.dart';
 import 'package:venusera_task/signup.dart';
 import 'package:venusera_task/style.dart';
 import 'helper/image_widget.dart';
@@ -22,32 +25,47 @@ class RequestComments extends StatefulWidget {
 class _RequestCommentsState extends State<RequestComments> {
 
   static TextEditingController CommentController = TextEditingController();
-  int ServiceProviderID , Requestid;
-  String Token;
+
   List<String> listOfComment;
   @override void initState() {
     // TODO: implement initState
     super.initState();
     listOfComment=new List<String>();
   }
-  /*  static SharedPreferences prefs =  SharedPreferences.getInstance() as SharedPreferences;
-  //Return String
-  Token = prefs.getString('Token');
-  Requestid = prefs.getString('Requestid');
-  ServiceProviderID = prefs.getString('ID');*/
+
+
 
   Future<void> AddCommentApi()
   async {
     var dio = Dio();
-    Response response = await dio.post("http://myousif-001-site1.dtempurl.com//api/requests/"+Requestid.toString()+"/comments", data: {"ServiceProviderID": ServiceProviderID, "Comment": CommentController.text},options: Options(
+    print(UserLogin.ID);
+    Response response = await dio.post("http://myousif-001-site1.dtempurl.com/api/requests/"+ServiceProviderList.id.toString()+"/comments", data: {"ServiceProviderID": UserLogin.ID, "Comment": CommentController.text,"RequestID" : ServiceProviderList.id},options: Options(
         headers: {
-        "Authorization": "Bearer "+Token},
+        "Authorization": "Bearer "+UserLogin.Token},
       followRedirects: false,
       validateStatus: (status) {
         return status < 500;
       },),
     );
     Map<String, dynamic> user = jsonDecode(response.toString());
+    print(user.toString());
+    print(ServiceProviderList.id);
+    if(user['statusCode']==200)
+      {
+        _insertComment();
+      }
+    else
+      {
+        Fluttertoast.showToast(
+            msg: "OOps! Server Error",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIos: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
   }
 
   @override
@@ -123,7 +141,7 @@ class _RequestCommentsState extends State<RequestComments> {
             //color: Colors.green,
             minWidth: 70,
             child: MaterialButton(
-              onPressed:_insertComment,
+              onPressed:AddCommentApi,
               textColor: Colors.white,
               color: Colors.blue,
               height: 40,
