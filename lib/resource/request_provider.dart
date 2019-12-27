@@ -11,8 +11,8 @@ class RequestAPIProvider {
     print('fetch requests');
     final responseForRequestList = await client.get('http://myousif-001-site1.dtempurl.com/api/requests',
         headers: {"Accept": "application/json","Authorization": "Bearer "+UserLogin.Token});
-    //print(responseForRequestList.body.toString());
-    //print(responseForRequestList.statusCode);
+    print(responseForRequestList.body.toString());
+    print(responseForRequestList.statusCode);
     if (responseForRequestList.statusCode == 200) {
       return RequestItemModel.fromJson(json.decode(responseForRequestList.body));
     }

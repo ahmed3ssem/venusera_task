@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:venusera_task/model/request_list_item.dart';
+import 'package:venusera_task/request_comments.dart';
 import 'package:venusera_task/request_details.dart';
 import 'package:venusera_task/resource/request_provider.dart';
 import 'package:venusera_task/style.dart';
@@ -56,7 +57,7 @@ class _ServiceProviderListState extends State<ServiceProviderList> {
     snapshot.data.imageList[0].toString(), 50, 50),
     onTap: () {
     Navigator.of(context).push(new MaterialPageRoute(
-    builder: (_) => new RequestDetails(id: "1", name: "request name"),
+    builder: (_) => new RequestComments(id:"1"),
     maintainState: true));
     },
     );
